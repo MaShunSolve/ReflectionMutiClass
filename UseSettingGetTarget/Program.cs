@@ -11,7 +11,7 @@ internal class Program
         else
             strArr = new string[] { "UseSettingGetTarget.TestServiceB", "MethodB", "query_input", "UseSettingGetTarget.SubDemoC" };
         Type serviceType = Type.GetType(strArr[0]);
-        //object obj = Activator.CreateInstance(serviceType);
+        object obj = Activator.CreateInstance(serviceType);
         MethodInfo methodInfo = serviceType.GetMethod(strArr[1]);
         if (methodInfo is not null)
         {
@@ -20,10 +20,12 @@ internal class Program
             Type paramType = Type.GetType(parameters.ParameterType.FullName);
             PropertyInfo queryObj = paramType.GetProperty(strArr[2]);//query input
             if (queryObj is not null)
-            { 
+            {
+                Console.WriteLine(queryObj.DeclaringType);
                 Type qc = queryObj.PropertyType;
                 if (queryObj.PropertyType.ToString() == strArr[3])
                 {
+                    object qi = Activator.CreateInstance(qc);
                     ProcessProperties(qc);
                 }
                 else
